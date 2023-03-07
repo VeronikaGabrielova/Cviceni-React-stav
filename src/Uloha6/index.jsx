@@ -1,5 +1,5 @@
-import React from 'react'
-import './ukol.css'
+import React, { useState } from "react";
+import "./ukol.css";
 
 // Zadání 1: Pomocí `map` vypiš v seznamu `ul` všechny úkoly pomocí komponenty `Ukol`.
 // Zadání 2: V komponentě Ukol si nachystej proměnnou s hodnotou `false`. Klikem na tlačítko ji změň na `true` pro splněný úkol.
@@ -8,16 +8,31 @@ import './ukol.css'
 // Bonus: Nastav jednotlivým položkám ve výpisu `key`, aby vývojářské nástroje v prohlížeči nezobrazovaly varování. Nápověda: Key musí být v seznamu unikátní. Použij název úkolu.
 
 const Ukol = ({ nazev }) => {
-	return (
-		<li className="ukol">
-			<span className="ukol__nazev">{nazev}</span>
-			<button className="ukol__akce">splnit</button>
-		</li>
-	)
-}
+  const [state, setState] = useState(false);
+  return (
+    <li className={state ? "ukol ukol--splnen" : "ukol"}>
+      <span className="ukol__nazev">{nazev}</span>
+      {state ? null : (
+        <button
+          onClick={() => {
+            setState(!state);
+          }}
+          className="ukol__akce"
+        >
+          splnit
+        </button>
+      )}
+    </li>
+  );
+};
 
 export const Uloha6 = () => {
-	const ukoly = ['Zamést', 'Pověsit prádlo', 'Umýt okna', 'Vynést koš']
-
-	return <ul>{ukoly}</ul>
-}
+  const ukoly = ["Zamést", "Pověsit prádlo", "Umýt okna", "Vynést koš"];
+  return (
+    <ul>
+      {ukoly.map((ukol, index) => (
+        <Ukol nazev={ukol} key={index} />
+      ))}
+    </ul>
+  );
+};
